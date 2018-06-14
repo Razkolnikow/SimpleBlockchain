@@ -7,4 +7,11 @@ module.exports = class Node {
         this.peers = new Map(); // nodeId -> Url
         this.chain = new Blockchain();
     }
+
+    // TODO: Notify peers when you receive new transaction!!!
+    // send the transaction hash
+
+    // TODO: The node should verify the transaction signature using the sender public key !!!
+    // TODO: The node should check if the transaction's address is correct by deriving it from the 
+    // sender's public key (which should be compressed in order to do that)
 }
