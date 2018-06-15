@@ -10,7 +10,7 @@ module.exports = class Miner {
 
     // TODO: The miner should ask the node on every two seconds for example if there is a new block
     // when the node returns bigger block index, the miner should leave the block that it is mining at the moment
-    // and asks for the new block hash !!!
+    // and asks for the new block hash, if the old block was mined already !!!
     // The miner should send the minedBlockHash with the block index!!!
 
     calculateHash(blockHash, difficulty) {
