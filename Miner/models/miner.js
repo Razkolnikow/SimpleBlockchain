@@ -6,6 +6,7 @@ module.exports = class Miner {
         this.timestamp = new Date();
         this.hash = '';
         this.minerAddress = 'test address';
+        this.currentBlockHash = '';
     }
 
     // TODO: The miner should ask the node on every two seconds for example if there is a new block
@@ -14,6 +15,8 @@ module.exports = class Miner {
     // The miner should send the minedBlockHash with the block index!!!
 
     calculateHash(blockHash, difficulty) {
+        this.currentBlockHash = blockHash;
+        this.hash = '';
         while(this.hash.toString().substring(0, difficulty) !== Array(difficulty + 1).join("0")) {
             this.hash = CryptoJS.SHA256(blockHash + this.nonce + this.timestamp);
             this.nonce++;

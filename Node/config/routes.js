@@ -29,8 +29,14 @@ module.exports = function (app, node) {
             newBlock.prevBlockHash = lastBlock.blockDataHash;
             newBlock.index = lastBlock.index + 1;
             newBlock.transactions.push(...node.chain.pendingTransactions);
+            newBlock.blockDataHash = newBlock.calculateBlockHash();
+            // TODO Add the coinbase transaction to the block!!!
+
+            console.log(newBlock.blockDataHash);
+            node.chain.miningJobs.set(newBlock.blockDataHash, newBlock);
+            
             res.json({
-                blockDataHash: newBlock.calculateBlockHash(),
+                blockDataHash: newBlock.blockDataHash,
                 difficulty: newBlock.difficulty
             })
         }
@@ -38,9 +44,19 @@ module.exports = function (app, node) {
 
     app.post('/mineBlock', (req, res) => {
         let blockHash = req.body.blockhash;
-        
+        let blockDataHash = req.body.blockDataHash;
+        // console.log(blockHash);
+        // console.log(blockDataHash);
+        let successful = false;
+        block = node.chain.miningJobs.get(blockDataHash);
+        console.log(blockDataHash);
+        var lastBlock = node.chain.blocks[node.chain.blocks.length - 1];
+        if (block && (block.index - 1) === lastBlock.index) {
+            successful = true;
+        }
+
         res.json({
-            
+            response: 'Mined block : ' + successful
         })
     })
 }

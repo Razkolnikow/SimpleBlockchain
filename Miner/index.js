@@ -8,9 +8,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-
-function mine() {
-    let miner = new Miner();
+let miner = new Miner();
+function mine() {    
     request.get('http://localhost:3005/get-mining-job', function (err, response, body) {
         let params = JSON.parse(body);
         let blockHash = params.blockDataHash;
@@ -33,6 +32,11 @@ function mine() {
                     timestamp: miner.timestamp,
                     awardAddress: miner.minerAddress
                 });
+            request.post({url: 'http://localhost:3005/mineBlock', 
+            form: {blockhash: minedBlockHash.toString(), blockDataHash: blockHash}},
+             (err, response, body) => {
+                console.log(body);
+             });
         }    
     })   
 }
