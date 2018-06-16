@@ -37,7 +37,7 @@ module.exports = class Transaction {
 
         // TODO check the fee also!!!
         
-        if (!isValidSignature || !this.areAddressAndPublicKeyValid() 
+        if (!isValidSignature || !this.checkAddress() 
             || !isValuePositive) {
             return false;
         }       
@@ -45,7 +45,7 @@ module.exports = class Transaction {
         return true;
     }
 
-    areAddressAndPublicKeyValid() {
+    checkAddress() {
         let decompressedPubKey = secp256k1.publicKeyConvert(this.senderPubKey, false);
         let address = eu.pubToAddress(new Buffer(decompressedPubKey.toString('hex').substr(2), 'hex'));
         if (address.toString('hex').toLowerCase() !== this.from.substr(2).toLowerCase()) {
