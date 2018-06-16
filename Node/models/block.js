@@ -23,6 +23,6 @@ module.exports = class Block {
             this.difficulty +
             JSON.stringify(this.transactions) +
             this.minedBy
-        );
+        ).toString();
     }
 }

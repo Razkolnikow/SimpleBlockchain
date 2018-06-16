@@ -1,15 +1,16 @@
 const cors = require('cors');
 const express = require('express');
+const Node = require('./models/node');
 
-let http_port = process.env.HTTP_PORT || 3001;
+
+let http_port = process.env.HTTP_PORT || 3005;
 let app = express();
 app.use(cors());
 
-app.get('/test', (req, res) => {
-    res.send('current port: ' + http_port);
-})
+let node = new Node();
 
-
+require('./config/body-parser')(app);
+require('./config/routes')(app, node);
 
 // TODO
 
