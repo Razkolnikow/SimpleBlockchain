@@ -2,9 +2,10 @@ const cors = require('cors');
 const express = require('express');
 const Node = require('./models/node');
 const Transaction = require('./models/transaction');
+const config = require('./config/config')
 
 
-let http_port = process.env.HTTP_PORT || 3005;
+let http_port = process.env.HTTP_PORT || config.port;
 let app = express();
 app.use(cors());
 

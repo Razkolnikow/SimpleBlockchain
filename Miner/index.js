@@ -18,6 +18,7 @@ function mine() {
             res.json(response)
         } else {
             let minedBlockHash = miner.calculateHash(blockHash, difficulty);
+            miner.timestamp = new Date();
             // res.json({
             //     minedBlockHash: minedBlockHash.toString(),
             //     blockHash: blockHash,
@@ -33,7 +34,12 @@ function mine() {
                     awardAddress: miner.minerAddress
                 });
             request.post({url: 'http://localhost:3005/mineBlock', 
-            form: {blockhash: minedBlockHash.toString(), blockDataHash: blockHash}},
+            form: {
+                blockhash: minedBlockHash.toString(), 
+                blockDataHash: blockHash,
+                nonce: miner.nonce,
+                dateCreated: miner.timestamp
+            }},
              (err, response, body) => {
                 console.log(body);
              });

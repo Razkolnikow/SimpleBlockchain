@@ -1,10 +1,12 @@
 const Block = require('./../models/block'); 
+const ValidationUtil = require('./../models/validationUtil');
+let validationUtil = new ValidationUtil();
 
 module.exports = function (app, node) {
     app.get('/info', (req, res) => {
         res.json({
             nodeId: node._id,
-            nodeUrl: 'http://localhost:3001',
+            nodeUrl: node.selfUrl,
             chainId: node.chain._id,
             currentDifficulty: node.chain.currentDifficulty,
             peers: node.peers.length ? node.peers.length : 0,
@@ -45,13 +47,16 @@ module.exports = function (app, node) {
     app.post('/mineBlock', (req, res) => {
         let blockHash = req.body.blockhash;
         let blockDataHash = req.body.blockDataHash;
+        let nonce = req.body.nonce;
+        let dateCreated = req.body.timestamp;
         // console.log(blockHash);
         // console.log(blockDataHash);
         let successful = false;
         block = node.chain.miningJobs.get(blockDataHash);
         console.log(blockDataHash);
         var lastBlock = node.chain.blocks[node.chain.blocks.length - 1];
-        if (block && (block.index - 1) === lastBlock.index) {
+        let isMinedHashValid = validationUtil.validateMinedBlockHash(block, blockHash, nonce);
+        if (block && (block.index - 1) === lastBlock.index && isMinedHashValid) {
             successful = true;
         }
 

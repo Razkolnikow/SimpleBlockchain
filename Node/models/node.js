@@ -1,10 +1,11 @@
 const Blockchain = require('./blockchain')
+const config = require('./../config/config')
 
 module.exports = class Node {
     constructor () {
         this._id = (new Date()).getTime().toString(16) +
         Math.random().toString(16).substring(2);
-        this.selfUrl = '';
+        this.selfUrl = config.testUrl + config.port;
         this.peers = new Map(); // nodeId -> Url
         this.chain = new Blockchain();
     }    
@@ -17,5 +18,5 @@ module.exports = class Node {
     // if this block has been already mined or not !!!
     // Calculate cumulative difficulty!!!
 
-
+    
 }
