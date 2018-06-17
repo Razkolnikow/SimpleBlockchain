@@ -11,9 +11,6 @@ module.exports = class Node {
         this.chain = new Blockchain();
     }    
 
-    // TODO: Notify peers when you receive new transaction!!!
-    // send the transaction hash
-
     // TODO: Use Json representation of the block data for the hash !!!
     // TODO: The miner should sent the minedBlockHash with the block index in order for the node to check
     // if this block has been already mined or not !!!
@@ -35,10 +32,26 @@ module.exports = class Node {
 
     receiveTransaction(transaction, receivedTransactionHash) {
         let validationUtil = new ValidationUtil();
-        return validationUtil
+        let areValidFields = validationUtil
             .checkTransactionForInvalidFields(
                 transaction, 
                 receivedTransactionHash
             );
+        
+        if (areValidFields && transaction.validateTransaction()) {
+            this.chain.pendingTransactions.push(transaction);
+            return true;
+        }
+
+        return false;
+    }
+
+    notifyPeersForNewTransactions() {
+        // TODO: Notify peers when you receive new transaction!!!
+        // send the transaction hash
+    }
+
+    notifyPeersForMinedBlock() {
+        // TODO
     }
 }
