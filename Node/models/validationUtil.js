@@ -13,7 +13,6 @@ module.exports = class ValidationUtil {
     }
 
     checkTransactionForInvalidFields(transaction, transactionHash) {
-        transaction.calculateTransacionDataHash();
         if (!transaction.from || transaction.from === ''
             || !transaction.to || transaction.to === ''
             || Number.isNaN(+transaction.value) || +transaction.value <= 0

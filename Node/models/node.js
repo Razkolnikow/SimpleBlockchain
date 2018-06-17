@@ -32,19 +32,37 @@ module.exports = class Node {
     }
 
     receiveTransaction(transaction, receivedTransactionHash) {
+        console.log('in receive tran')
         let validationUtil = new ValidationUtil();
         let areValidFields = validationUtil
             .checkTransactionForInvalidFields(
                 transaction, 
                 receivedTransactionHash
             );
+
+        console.log('are valid fields: ' + areValidFields);
+
+        let isDuplicateTran = !!this.chain.pendingTransactions
+            .find(x => x.transactionDataHash === receivedTransactionHash);
         
         if (areValidFields && transaction.validateTransaction()) {
-            this.chain.pendingTransactions.push(transaction);
+            this.chain.pendingTransactions.push(transaction && !isDuplicateTran);
             return true;
         }
 
         return false;
+    }
+
+    mapTran(tran, receivedTran) {
+        tran.from = receivedTran.from;
+        tran.to = receivedTran.to;
+        tran.value = receivedTran.value;
+        tran.fee = receivedTran.fee;
+        tran.dateCreated = receivedTran.dateCreated;
+        tran.data = receivedTran.data;
+        tran.senderPubKey = receivedTran.senderPubKey;
+        tran.calculateTransacionDataHash();
+        tran.senderSignature = receivedTran.senderSignature;
     }
 
     notifyPeersForNewTransactions() {

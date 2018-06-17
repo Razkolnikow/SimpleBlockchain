@@ -30,6 +30,7 @@ module.exports = class Transaction {
     }
 
     validateTransaction() {
+        console.log(this.senderPubKey);
         let isValidSignature = this
             .verifySignature(this.transactionDataHash, this.senderPubKey, this.senderSignature);
 
@@ -46,9 +47,13 @@ module.exports = class Transaction {
     }
 
     checkAddress() {
-        let decompressedPubKey = secp256k1.publicKeyConvert(this.senderPubKey, false);
+        let decompressedPubKey = secp256k1.publicKeyConvert(new Buffer(this.senderPubKey, 'hex'), false);
         let address = eu.pubToAddress(new Buffer(decompressedPubKey.toString('hex').substr(2), 'hex'));
-        if (address.toString('hex').toLowerCase() !== this.from.substr(2).toLowerCase()) {
+        if (this.from.startsWith('0x')) {
+            this.from = this.from.substr(2);
+        }
+        if (address.toString('hex').toLowerCase() !== this.from.toLowerCase()) {
+            console.log('Address is not valid maybe?')
             return false;
         }
 
@@ -60,6 +65,8 @@ module.exports = class Transaction {
             new Buffer(data, 'hex'), 
             new Buffer(signature,'hex'), 
             new Buffer(publicKey, 'hex'));
+
+            console.log('IsValid sig: ' + result);
     
         return result;
     }

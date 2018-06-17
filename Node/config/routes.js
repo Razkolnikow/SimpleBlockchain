@@ -1,5 +1,6 @@
 const Block = require('./../models/block'); 
 const ValidationUtil = require('./../models/validationUtil');
+const Transaction = require('./../models/transaction');
 let validationUtil = new ValidationUtil();
 
 module.exports = function (app, node) {
@@ -67,7 +68,24 @@ module.exports = function (app, node) {
         })
     })
 
-    app.post('send-transaction', (req, res) => {
+    app.post('/send-transaction', (req, res) => {
+        // TODO
+        let receivedTran = req.body;
+        let tran = new Transaction();
+        node.mapTran(tran, receivedTran);
+
+        // console.log(receivedTran);
+        // console.log(tran);
+        
+        let isValid = node.receiveTransaction(tran, receivedTran.transactionDataHash);
+        if (isValid) {
+            res.json({response: 'Valid transaction'})
+        } else {
+            res.json({response: 'Invalid transaction'})
+        }        
+    });
+
+    app.get('/blocks', (req, res) => {
         // TODO
     });
 }
