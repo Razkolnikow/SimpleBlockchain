@@ -5,10 +5,44 @@
     <title>Wallet</title>
   </head>
   <body>
+        <div>
+                <a href="/index" style="margin-left: 5px;">Home </a>
+                <a href="/generate" style="margin-left: 5px;">Generate wallet </a>
+                <a href="/send" style="margin-left: 5px;">Send </a>
+                <a href="" style="margin-left: 5px;"></a>
+                <a href="" style="margin-left: 5px;"></a>
+            </div>
       <div class="container" style="text-align: center;">
           <h1>Generate new wallet</h1>
+            <input type="button" value="Generate">
+            <br>
+
+            <label for="address">Address</label>
+            <input type="text" id="address" value="">
+            <br>
+            <label for="publickey">Public key</label>
+            <input type="text" id="publickey" value="">
+            <br>
+            <input type="button" id="showmnemonic" value="View mnemonic words">
+            <br>
+            <textarea name="" id="mnemonic" cols="30" rows="10"></textarea>
+            <br>
+            <input type="button" id="showprivate" value="Show Private Key">
+            <textarea name="" id="privatekey" cols="30" rows="10"></textarea>
+
       </div>    
   </body>
-
+  <script type="application/javascript">
+    //   $.ajax({
+    //   type: "POST",
+    //   url: url,
+    //   data: data,
+    //   success: success,
+    //   dataType: dataType
+    // });
+        $(document).ready(function () {
+            
+        });
+    </script>
   
 </html>

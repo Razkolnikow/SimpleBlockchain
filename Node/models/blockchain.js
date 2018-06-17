@@ -16,7 +16,8 @@ module.exports = class Blockchain {
         let genesisBlock = new Block();
         let transaction = new Transaction();
         transaction.from = '0000000000000000000000000000000000000000'
-        transaction.to = 'faucete';
+        transaction.to = 'CFd4a0A452E49FA91C34f80B9C5aA95e6Da18F6B'; // faucet
+        // faucete private key: 83e3c4a7dbd53f0d44ccddd2cc592f6ec5a0342de3080e3504dab47fd8cc8149
         transaction.dateCreated = new Date().toISOString();
         transaction.fee = 0;
         transaction.value = 1000000000000;
