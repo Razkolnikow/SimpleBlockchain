@@ -26,6 +26,7 @@ module.exports = class Node {
     processTransactions(block) {
         let transactions = block.transactions;
         for (let i = 0; i < transactions.length; i++) {
+            console.log(transactions[i])
             transactions[i].transferSuccessful = true;
             transactions[i].minedInBlockIndex = block.index;
         }
@@ -45,8 +46,8 @@ module.exports = class Node {
         let isDuplicateTran = !!this.chain.pendingTransactions
             .find(x => x.transactionDataHash === receivedTransactionHash);
         
-        if (areValidFields && transaction.validateTransaction()) {
-            this.chain.pendingTransactions.push(transaction && !isDuplicateTran);
+        if (areValidFields && transaction.validateTransaction() && !isDuplicateTran) {
+            this.chain.pendingTransactions.push(transaction);
             return true;
         }
 

@@ -22,7 +22,7 @@ module.exports = function (app, node) {
     });
 
     app.get('/get-mining-job', (req, res) => {
-        if (!node.chain.pendingTransactions.length || node.chain.pendingTransactions.length < 2) {
+        if (!node.chain.pendingTransactions.length || node.chain.pendingTransactions.length < 1) {
             res.json({
                 miningJob: 'No pending transactions at the moment'
             });
@@ -31,11 +31,11 @@ module.exports = function (app, node) {
             let lastBlock = node.chain.blocks[node.chain.blocks.length - 1];
             newBlock.prevBlockHash = lastBlock.blockDataHash;
             newBlock.index = lastBlock.index + 1;
-            newBlock.transactions.push(...node.chain.pendingTransactions);
+            let pendingTrans = node.chain.pendingTransactions;
+            newBlock.transactions.push(...pendingTrans);
             newBlock.blockDataHash = newBlock.calculateBlockHash();
             // TODO Add the coinbase transaction to the block!!!
 
-            console.log(newBlock.blockDataHash);
             node.chain.miningJobs.set(newBlock.blockDataHash, newBlock);
             
             res.json({

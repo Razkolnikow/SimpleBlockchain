@@ -15,7 +15,7 @@ module.exports = class Transaction {
         this.transactionDataHash = ''; // Hex_number
         this.senderSignature = ''; // hex number [2][64]
         this.minedInBlockIndex = ''; // integer
-        this.transferSuccessful = ''; // bool
+        this.transferSuccessful = false; // bool
     }
 
     calculateTransacionDataHash() {

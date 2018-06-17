@@ -15,7 +15,7 @@ function mine() {
         let blockHash = params.blockDataHash;
         let difficulty = +params.difficulty;
         if (!blockHash && isNaN(difficulty)) {
-            res.json(response)
+            console.log(body)
         } else {
             let minedBlockHash = miner.calculateHash(blockHash, difficulty);
             miner.timestamp = new Date();
@@ -41,7 +41,11 @@ function mine() {
                 dateCreated: miner.timestamp
             }},
              (err, response, body) => {
-                console.log(body);
+                 if (err) {
+                     console.log('error: ' + err);
+                 } else {
+                    console.log(body);
+                 }                
              });
         }    
     })   

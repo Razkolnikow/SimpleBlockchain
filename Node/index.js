@@ -12,8 +12,8 @@ app.use(cors());
 let node = new Node();
 let tran1 = new Transaction();
 let tran2 = new Transaction();
-node.chain.pendingTransactions.push(tran1);
-node.chain.pendingTransactions.push(tran2);
+// node.chain.pendingTransactions.push(tran1);
+// node.chain.pendingTransactions.push(tran2);
 
 require('./config/body-parser')(app);
 require('./config/routes')(app, node);

@@ -5,7 +5,7 @@ module.exports = class Miner {
         this.nonce = 0;
         this.timestamp = new Date();
         this.hash = '';
-        this.minerAddress = 'test address';
+        this.minerAddress = '1E1CF750C93bd5c8bFE54c02ca12918B7E166761';
         this.currentBlockHash = '';
     }
 
