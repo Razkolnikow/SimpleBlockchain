@@ -50,22 +50,34 @@ module.exports = function (app, node) {
         let blockDataHash = req.body.blockDataHash;
         let nonce = req.body.nonce;
         let dateCreated = req.body.timestamp;
+        let minerAddress = req.body.minerAddress;
         // console.log(blockHash);
         // console.log(blockDataHash);
         let successful = false;
         block = node.chain.miningJobs.get(blockDataHash);
-        console.log(blockDataHash);
+        block.nonce = nonce;
+        block.minedBlockHash = blockHash;
+        block.dateCreated = dateCreated;
+        
+        console.log();
         var lastBlock = node.chain.blocks[node.chain.blocks.length - 1];
         let isMinedHashValid = validationUtil.validateMinedBlockHash(block, blockHash, nonce);
+        
         if (block && (block.index - 1) === lastBlock.index && isMinedHashValid) {
             successful = true;
+            block.minedBy = minerAddress;
             node.addBlock(block);
             node.processTransactions(block);
+            res.json({
+                response: 'Mined block : ' + successful
+            })
+        } else {
+            res.json({
+                response: "Invalid block"
+            });
         }
 
-        res.json({
-            response: 'Mined block : ' + successful
-        })
+        
     })
 
     app.post('/send-transaction', (req, res) => {

@@ -38,7 +38,8 @@ function mine() {
                 blockhash: minedBlockHash.toString(), 
                 blockDataHash: blockHash,
                 nonce: miner.nonce,
-                dateCreated: miner.timestamp
+                dateCreated: miner.timestamp,
+                minerAddress: miner.minerAddress
             }},
              (err, response, body) => {
                  if (err) {
