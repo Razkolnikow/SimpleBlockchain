@@ -1,5 +1,6 @@
 const Blockchain = require('./blockchain')
 const config = require('./../config/config')
+const ValidationUtil = require('./validationUtil');
 
 module.exports = class Node {
     constructor () {
@@ -18,5 +19,26 @@ module.exports = class Node {
     // if this block has been already mined or not !!!
     // Calculate cumulative difficulty!!!
 
-    
+    addBlock(block) {
+        let lastBlock = this.chain.blocks[this.chain.blocks.length - 1];
+        block.prevBlockHash = lastBlock.minedBlockHash;
+        this.chain.blocks.push(block);
+    }
+
+    processTransactions(block) {
+        let transactions = block.transactions;
+        for (let i = 0; i < transactions.length; i++) {
+            transactions[i].transferSuccessful = true;
+            transactions[i].minedInBlockIndex = block.index;
+        }
+    }
+
+    receiveTransaction(transaction, receivedTransactionHash) {
+        let validationUtil = new ValidationUtil();
+        return validationUtil
+            .checkTransactionForInvalidFields(
+                transaction, 
+                receivedTransactionHash
+            );
+    }
 }

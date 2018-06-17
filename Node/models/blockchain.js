@@ -35,6 +35,7 @@ module.exports = class Blockchain {
         genesisBlock.difficulty = 0;
 
         genesisBlock.blockDataHash = genesisBlock.calculateBlockHash();
+        genesisBlock.minedBlockHash = genesisBlock.blockDataHash;
         this.blocks.push(genesisBlock);
         this._id = this.blocks[0].blockDataHash;
     }

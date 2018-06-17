@@ -58,10 +58,16 @@ module.exports = function (app, node) {
         let isMinedHashValid = validationUtil.validateMinedBlockHash(block, blockHash, nonce);
         if (block && (block.index - 1) === lastBlock.index && isMinedHashValid) {
             successful = true;
+            node.addBlock(block);
+            node.processTransactions();
         }
 
         res.json({
             response: 'Mined block : ' + successful
         })
     })
+
+    app.post('send-transaction', (req, res) => {
+        // TODO
+    });
 }
