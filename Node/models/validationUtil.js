@@ -7,8 +7,9 @@ module.exports = class ValidationUtil {
 
     validateMinedBlockHash(block, minedHash, nonce) {
         let hash = CryptoJS.SHA256(block.blockDataHash + nonce).toString();
+        let difficulty = block.difficulty;
         
-        return minedHash === hash;
+        return minedHash === hash && minedHash.substring(0, difficulty) === Array(difficulty + 1).join("0");
     }
 
     checkTransactionForInvalidFields(transaction, transactionHash) {

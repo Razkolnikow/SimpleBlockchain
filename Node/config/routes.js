@@ -59,7 +59,7 @@ module.exports = function (app, node) {
         if (block && (block.index - 1) === lastBlock.index && isMinedHashValid) {
             successful = true;
             node.addBlock(block);
-            node.processTransactions();
+            node.processTransactions(block);
         }
 
         res.json({

@@ -15,6 +15,7 @@ module.exports = class Node {
     // TODO: The miner should sent the minedBlockHash with the block index in order for the node to check
     // if this block has been already mined or not !!!
     // Calculate cumulative difficulty!!!
+    // TODO adjust difficulty - optional
 
     addBlock(block) {
         let lastBlock = this.chain.blocks[this.chain.blocks.length - 1];
