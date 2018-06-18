@@ -70,4 +70,15 @@ module.exports = class Wallet {
     
         return result;
     }
+
+    getWalletFromPrivateKey(privateKey) {
+        let publicKeyFromprivate = secp256k1.publicKeyCreate(new Buffer(privateKey, 'hex'), true);
+        let decompressedPubKey = secp256k1.publicKeyConvert(publicKeyFromprivate, false);
+        let address = eu.pubToAddress(new Buffer(decompressedPubKey.toString('hex').substr(2), 'hex'));
+
+        return {
+            publicKey: publicKeyFromprivate.toString('hex').substr(2),
+            address: address.toString('hex')
+        };
+    }
 }

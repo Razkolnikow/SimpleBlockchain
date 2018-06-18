@@ -100,4 +100,11 @@ module.exports = function (app, node) {
     app.get('/blocks', (req, res) => {
         // TODO
     });
+
+    app.get('/balance', (req, res) => {
+        let address = req.query.address;
+        let balance = node.getBalance(address);
+
+        res.json({balance: balance});
+    });
 }

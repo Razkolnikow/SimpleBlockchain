@@ -69,6 +69,31 @@ module.exports = class Node {
         tran.senderSignature = receivedTran.senderSignature;
     }
 
+    getBalance(address) {
+        // TODO - safe balance (6 blocks confirmation); confirmed balance (between 1 and 6 blocks depth)
+        // pendingBalance - balance from pending transactions
+        
+        let blocks = this.chain.block;
+        let balance = 0;
+        
+        for (let i = 0; i < blocks.length; i++) {
+            let transactions = blocks[i].transactions;
+
+            for (let j = 0; j < transactions.length; j++) {
+                let currentTran = transactions[j];
+                let val = currentTran.value;
+                let fee = currentTran.fee;
+                if (currentTran.to === address) {
+                    balance += (val + fee);
+                } else if (currentTran.from === address) {
+                    balance -= (val + fee);
+                }
+            }
+        }
+        
+        return balance;
+    }
+
     notifyPeersForNewTransactions() {
         // TODO: Notify peers when you receive new transaction!!!
         // send the transaction hash
