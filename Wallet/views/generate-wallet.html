@@ -18,7 +18,7 @@
             </div>
       <div class="container" style="text-align: center;">
           <h1>Generate new wallet</h1>
-            <input type="button" value="Generate">
+            <input type="button" id="gen" value="Generate">
             <br>
 
             <label for="address">Address</label>
@@ -27,25 +27,30 @@
             <label for="publickey">Public key</label>
             <input type="text" id="publickey" value="">
             <br>
-            <input type="button" id="showmnemonic" value="View mnemonic words">
-            <br>
+            <label for="mnemonic">Mnemonic words</label>
             <textarea name="" id="mnemonic" cols="30" rows="10"></textarea>
             <br>
-            <input type="button" id="showprivate" value="Show Private Key">
+            <label for="privatekey">Private key</label>
             <textarea name="" id="privatekey" cols="30" rows="10"></textarea>
 
       </div>    
   </body>
   <script type="application/javascript">
-    //   $.ajax({
-    //   type: "POST",
-    //   url: url,
-    //   data: data,
-    //   success: success,
-    //   dataType: dataType
-    // });
         $(document).ready(function () {
-            
+            $('#gen').click(function (ev) {
+                $.ajax({
+                    type: "GET",
+                    content: "application/json; charset=utf-8",
+                    url: 'http://localhost:3001/generate-wallet',
+                    dataType: "json"
+                }).done(function (data) {
+                    console.log(data);
+                    $('#address').val(data.address);
+                    $('#publickey').val(data.publicKey);
+                    $('#mnemonic').text(data.mnemonic);
+                    $('#privatekey').text(data.privateKey);
+                });
+            });            
         });
     </script>
   

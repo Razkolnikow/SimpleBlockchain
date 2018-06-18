@@ -23,7 +23,6 @@ module.exports = function (app) {
     })
 
     app.post('/open-wallet', (req, res) => {
-        console.log(req.body);
         let privateKey = req.body.privateKey;
         let wallet = {};
         try {
@@ -33,5 +32,19 @@ module.exports = function (app) {
         }
         
         res.json(wallet);
+    });
+
+    app.get('/generate-wallet', (req, res) => {
+        let wallet = walletObj.generateRandomHDWallet();
+        let wallet2 = walletObj.getWalletFromPrivateKey(wallet.privateKey.substr(2));
+
+        let w = {
+            privateKey: wallet.privateKey.substr(2),
+            mnemonic: wallet.mnemonic,
+            publicKey: wallet2.publicKey,
+            address: wallet2.address
+        }
+
+        res.json(w);
     });
 }
