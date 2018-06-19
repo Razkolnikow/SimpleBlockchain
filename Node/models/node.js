@@ -73,7 +73,7 @@ module.exports = class Node {
         // TODO - safe balance (6 blocks confirmation); confirmed balance (between 1 and 6 blocks depth)
         // pendingBalance - balance from pending transactions
         
-        let blocks = this.chain.block;
+        let blocks = this.chain.blocks;
         let balance = 0;
         
         for (let i = 0; i < blocks.length; i++) {

@@ -56,7 +56,16 @@ module.exports = function (app) {
     app.get('/get-balance', (req, res) => {
         let address = req.query.address;
         let nodeUrl = req.query.nodeUrl;
+        console.log(nodeUrl);
 
-        request.get('')
+        request.get((nodeUrl + '/balance?address=' + address), function (error, response, body) {
+            if (error) {
+                res.json(error);
+            } else {
+                res.json(body);
+            }                      
+        })
+
+        //res.json({err: "error occured"})
     });
 }

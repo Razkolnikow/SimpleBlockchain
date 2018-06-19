@@ -26,31 +26,32 @@
           </div>
           <div class="form-group">
             <label for="node">Node url</label>
-            <input class="form-control" type="text" id="node" placeholder="Node url">
+            <input class="form-control" type="text" value="http://localhost:3005" id="node" placeholder="Node url">
           </div>
           <div class="form-group">
-
+            <label for="balance">Balance</label>
+            <input type="text" class="form-control" id="balance">
           </div>
+          <input type="button" id="get" value="Get" class="btn btn-primary">
           
       </div>    
   </body>
 
   <script type="application/javascript">
         $(document).ready(function () {
-            $('#open').click(function (ev) {
+            $('#get').click(function (ev) {
                 let address = $('#address').val();
                 let nodeUrl = $('#node').val();
                 $.ajax({
-                type: "POST",
+                type: "GET",
                 content: "application/json; charset=utf-8",
                 url: `http://localhost:3001/get-balance?address=${address}&nodeUrl=${nodeUrl}`,
                 dataType: "json"
                 }).done(function (data) {
-                    console.log(data);
-                    
+
+                    $('#balance').val(JSON.parse(data).balance);                                        
                 });
-            });
-            
+            });            
         });
     </script>
   
