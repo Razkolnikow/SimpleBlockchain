@@ -81,12 +81,12 @@ module.exports = class Node {
 
             for (let j = 0; j < transactions.length; j++) {
                 let currentTran = transactions[j];
-                let val = currentTran.value;
-                let fee = currentTran.fee;
+                let val = +currentTran.value;
+                let fee = +currentTran.fee;
                 if (currentTran.to === address) {
-                    balance += (val + fee);
+                    balance += (val - fee);
                 } else if (currentTran.from === address) {
-                    balance -= (val + fee);
+                    balance -= (val - fee);
                 }
             }
         }

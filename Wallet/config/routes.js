@@ -68,4 +68,44 @@ module.exports = function (app) {
 
         //res.json({err: "error occured"})
     });
+
+    app.post('/send-transaction', (req, res) => {
+        let from = req.body.from;
+        let to = req.body.to;
+        let value = req.body.value;
+        let privateKey = req.body.privateKey;
+
+        let nodeUrl = req.body.nodeUrl;
+        let pubKey = walletObj.getPublicKeyFromPrivate(privateKey);
+
+        
+
+        let transaction = {
+            from: from, // Address (40 hex digits)
+            to: to, // Address (40 hex digits)
+            value: value, // non negative integer
+            fee: 10, //   non negative integer
+            dateCreated: new Date().toISOString(), // String ISO8601_string
+            data: '', // String optional
+            senderPubKey: pubKey, 
+            transactionDataHash: '', // Hex_number
+            senderSignature: '', // hex number [2][64]
+        }
+
+        let transactionHash = walletObj.calculateTransacionDataHash(transaction);
+        let signature = walletObj
+            .sign(transactionHash, privateKey)
+            .signature.toString('hex');
+        transaction.transactionDataHash = transactionHash;
+        transaction.senderSignature = signature;
+
+        request.post({url: nodeUrl + '/send-transaction', 
+        form: transaction}, function (err, response, body) {
+            if (err) {
+                res.json(err);
+            } else {
+                res.json(body);
+            }
+        });
+    });
 }

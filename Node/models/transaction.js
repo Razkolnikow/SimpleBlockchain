@@ -7,8 +7,8 @@ module.exports = class Transaction {
         // TODO
         this.from = ''; // Address (40 hex digits)
         this.to = ''; // Address (40 hex digits)
-        this.value = ''; // non negative integer
-        this.fee = ''; //   non negative integer
+        this.value = 0; // non negative integer
+        this.fee = 0; //   non negative integer
         this.dateCreated = ''; // String ISO8601_string
         this.data = ''; // String optional
         this.senderPubKey = ''; // hex number 65

@@ -81,4 +81,23 @@ module.exports = class Wallet {
             address: address.toString('hex')
         };
     }
+
+    getPublicKeyFromPrivate(privateKey) {
+        let pubKey = secp256k1
+            .publicKeyCreate(new Buffer(privateKey, 'hex'), true)
+            .toString('hex');
+
+        return pubKey;
+    }
+    
+    calculateTransacionDataHash(transaction) {
+        return CryptoJS.SHA256(transaction.from
+            + transaction.to
+            + transaction.value
+            + transaction.fee
+            + transaction.dateCreated
+            + transaction.data
+            + transaction.senderPubKey
+        ).toString();
+    }
 }

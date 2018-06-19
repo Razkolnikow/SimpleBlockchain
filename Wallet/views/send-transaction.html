@@ -22,8 +22,12 @@
         <h1>Wallet</h1>
         <form action="">
             <div class="form-group">
+                <label for="private-key">Private key</label>
+                <input type="password" id="private-key" class="form-control" placeholder="Private key">
+            </div>
+            <div class="form-group">
                 <label for="sender">Sender</label>
-                <input type="text" id="sender" placeholder="Sender Address">
+                <input type="text" id="sender" class="form-control" placeholder="Sender Address">
             </div>
             <div class="form-group">
                 <label for="recipient">Recipient</label>
@@ -33,13 +37,13 @@
             <div class="form-group">
                 <label for="value">Value</label>
             
-                <input type="text" placeholder="Value to send" class="form-control">
+                <input type="text" id="value" placeholder="Value to send" class="form-control">
             </div>
     
-            <input type="button" value="Sign transaction" class="btn btn-default btn-success">
+            <!-- <input type="button" value="Sign transaction" class="btn btn-default btn-success">
             <br>
             <textarea name="signedTransaction" id="signedTransaction" cols="30" rows="10" class="form-control"></textarea>
-            <br>
+            <br> -->
     
             <div class="form-group">
                 <label for="node">BlockchainNode</label>
@@ -59,9 +63,27 @@
         var nodeUrl = $('#node').val();
         var send = $('#send');
         send.click(function (ev) {
-            $.get(nodeUrl + '/info', function (data) {
-                console.log(data);
-            })
+            let senderAddress = $('#sender').val();
+            let recipientAddress = $('#recipient').val();
+            let value = $('#value').val();
+            let privateKey = $('#private-key').val();
+            let nodeUrl = $('#node').val();
+            $.ajax({
+                type: "POST",
+                content: "application/json; charset=utf-8",
+                url: 'http://localhost:3001/send-transaction',
+                data: {
+                    from: senderAddress,
+                    to: recipientAddress,
+                    value: value,
+                    privateKey: privateKey,
+                    nodeUrl: nodeUrl
+
+                },
+                dataType: "json"
+                }).done(function (data) {
+                    console.log(data);
+                });
         })
     });
   </script>
