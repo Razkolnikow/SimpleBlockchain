@@ -99,7 +99,16 @@ module.exports = class Node {
         // send the transaction hash
     }
 
-    notifyPeersForMinedBlock() {
+    notifyPeersForMinedBlock(minedBlock) {
+        // TODO
+
+        for (let i = 0; i < this.peers.length; i++) {
+            let currentPeer = this.peers[i];
+            // TODO
+        }
+    }
+
+    connectToPeers() {
         // TODO
     }
 }
