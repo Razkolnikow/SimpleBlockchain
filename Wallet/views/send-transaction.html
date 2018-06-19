@@ -7,6 +7,8 @@
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   </head>
   <body>
         <div>
@@ -14,40 +16,45 @@
             <a href="/generate" style="margin-left: 5px;">Generate wallet </a>
             <a href="/send" style="margin-left: 5px;">Send </a>
             <a href="/open" style="margin-left: 5px;">Open wallet</a>
-            <a href="" style="margin-left: 5px;"></a>
+            <a href="/balance" style="margin-left: 5px;">Balance</a>
             </div>
       <div class="container" style="text-align: center;">
         <h1>Wallet</h1>
-        <label for="sender">Sender</label>
-        <input type="text" id="sender" placeholder="Sender Address">
-        <br>
-        <label for="recipient">Recipient</label>
-        <input type="text" id="recipient" placeholder="Recipient Address">
-        <br>
-        <label for="value">Value</label>
+        <form action="">
+            <div class="form-group">
+                <label for="sender">Sender</label>
+                <input type="text" id="sender" placeholder="Sender Address">
+            </div>
+            <div class="form-group">
+                <label for="recipient">Recipient</label>
+                <input type="text" id="recipient" class="form-control" placeholder="Recipient Address">
+            </div>
+    
+            <div class="form-group">
+                <label for="value">Value</label>
+            
+                <input type="text" placeholder="Value to send" class="form-control">
+            </div>
+    
+            <input type="button" value="Sign transaction" class="btn btn-default btn-success">
+            <br>
+            <textarea name="signedTransaction" id="signedTransaction" cols="30" rows="10" class="form-control"></textarea>
+            <br>
+    
+            <div class="form-group">
+                <label for="node">BlockchainNode</label>
+                <input class="form-control" type="text" id='node' placeholder="Blockchain node" value="http://localhost:3005">
+            </div>
+            <div class="form-group">
+                <input type="button" id="send" value="Send" class="btn btn-default btn-success">
+            </div>
+        </form>
         
-        <input type="text" placeholder="Value to send">
-        <br>
-        <input type="button" value="Sign transaction">
-        <br>
-        <textarea name="signedTransaction" id="signedTransaction" cols="30" rows="10"></textarea>
-        <br>
-        <label for="node">BlockchainNode</label>
-        <input type="text" id='node' placeholder="Blockchain node" value="http://localhost:3005">
-        <br>
-        <label for="send">Send</label>
-        <input type="button" id="send" value="Send">
+        
       </div>    
   </body>
 
   <script type="application/javascript">
-//   $.ajax({
-//   type: "POST",
-//   url: url,
-//   data: data,
-//   success: success,
-//   dataType: dataType
-// });
     $(document).ready(function () {
         var nodeUrl = $('#node').val();
         var send = $('#send');

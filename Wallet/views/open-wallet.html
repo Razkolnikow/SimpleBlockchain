@@ -7,6 +7,8 @@
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   </head>
   <body>
         <div>
@@ -14,20 +16,28 @@
             <a href="/generate" style="margin-left: 5px;">Generate wallet </a>
             <a href="/send" style="margin-left: 5px;">Send </a>
             <a href="/open" style="margin-left: 5px;">Open wallet</a>
-            <a href="" style="margin-left: 5px;"></a>
+            <a href="/balance" style="margin-left: 5px;">Balance</a>
             </div>
       <div class="container" style="text-align: center;">
           <h1>Open existing wallet</h1>
-          <label for="private-key">Private key</label>
-          <input type="text" placeholder="Enter private key" id="private-key">
-          <input type="button" value="Open wallet" id="open">
-            <br>
-          <label for="public-key">Public key</label>
-          <input type="text" id="public-key">
-          <br>
-          <label for="address">Address</label>
-          <input type="text" id="address">
-          <br>
+          <form action="" class="form-horizontal">
+            <div class="form-group">
+                <label for="private-key">Private key</label>
+                <input class="form-control" type="text" placeholder="Enter private key" id="private-key">
+              </div>
+              
+              <input class="btn btn-default btn-primary" type="button" value="Open wallet" id="open" class="btn btn-default btn-success">
+              <div class="form-group">
+                <label for="public-key">Public key</label>
+                <input class="form-control" type="text" id="public-key">
+              </div>
+              <div class="form-group">
+                <label for="address">Address</label>
+                <input class="form-control" type="text" id="address">
+              </div>
+          </form>
+          
+          
       </div>    
   </body>
   <script type="application/javascript">

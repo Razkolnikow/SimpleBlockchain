@@ -1,10 +1,15 @@
 const path = require('path');
 const Wallet = require('./../models/wallet');
+const request = require('request');
 
 let walletObj = new Wallet();
 
 module.exports = function (app) {
     // TODO 
+
+    app.get('/balance', (req, res) => {
+        res.sendFile(path.join(__dirname+'/../views/balance.html'));
+    })
 
     app.get('/send', (req, res) => {
         res.sendFile(path.join(__dirname+'/../views/send-transaction.html'));
@@ -46,5 +51,12 @@ module.exports = function (app) {
         }
 
         res.json(w);
+    });
+
+    app.get('/get-balance', (req, res) => {
+        let address = req.query.address;
+        let nodeUrl = req.query.nodeUrl;
+
+        request.get('')
     });
 }
