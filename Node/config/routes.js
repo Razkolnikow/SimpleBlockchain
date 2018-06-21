@@ -27,6 +27,7 @@ module.exports = function (app, node) {
                 miningJob: 'No pending transactions at the moment'
             });
         } else {
+            let minerAddress = req.query.minerAddress;
             let newBlock = new Block();
             let lastBlock = node.chain.blocks[node.chain.blocks.length - 1];
             newBlock.prevBlockHash = lastBlock.blockDataHash;
@@ -35,6 +36,9 @@ module.exports = function (app, node) {
             newBlock.transactions.push(...pendingTrans);
             newBlock.blockDataHash = newBlock.calculateBlockHash();
             // TODO Add the coinbase transaction to the block!!!
+
+            let coinbaseTran = node.prepareCoinbaseTran(minerAddress, newBlock);
+            newBlock.transactions.push(coinbaseTran);
 
             node.chain.miningJobs.set(newBlock.blockDataHash, newBlock);
             

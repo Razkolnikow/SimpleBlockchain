@@ -16,7 +16,7 @@ module.exports = class Faucet {
             from: this.selfAddress, // Address (40 hex digits)
             to: receiverAddress, // Address (40 hex digits)
             value: 20, // non negative integer
-            fee: 10, //   non negative integer
+            fee: 0, //   non negative integer
             dateCreated: new Date().toISOString(), // String ISO8601_string
             data: '', // String optional
             senderPubKey: pubKey, 

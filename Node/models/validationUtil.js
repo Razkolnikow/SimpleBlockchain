@@ -1,4 +1,5 @@
 const CryptoJS = require('crypto-js');
+const Constants = require('./CustomConstants');
 
 module.exports = class ValidationUtil {
     constructor () {
@@ -13,6 +14,9 @@ module.exports = class ValidationUtil {
     }
 
     checkTransactionForInvalidFields(transaction, transactionHash) {
+        if (transaction.from === Constants.faucetAddress) {
+            return true;
+        }
         if (!transaction.from || transaction.from === ''
             || !transaction.to || transaction.to === ''
             || Number.isNaN(+transaction.value) || +transaction.value <= 0

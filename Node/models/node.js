@@ -1,6 +1,7 @@
 const Blockchain = require('./blockchain')
 const config = require('./../config/config')
 const ValidationUtil = require('./validationUtil');
+const Transaction = require('./transaction');
 
 module.exports = class Node {
     constructor () {
@@ -11,11 +12,10 @@ module.exports = class Node {
         this.chain = new Blockchain();
     }    
 
-    // TODO: Use Json representation of the block data for the hash !!!
-    // TODO: The miner should sent the minedBlockHash with the block index in order for the node to check
-    // if this block has been already mined or not !!!
-    // Calculate cumulative difficulty!!!
     // TODO adjust difficulty - optional
+    // TODO Get confirmed transaction endpoint
+    // TODO Get pending transactions endpoint
+    // TODO list all account balances
 
     addBlock(block) {
         let lastBlock = this.chain.blocks[this.chain.blocks.length - 1];
@@ -49,12 +49,20 @@ module.exports = class Node {
         let isDuplicateTran = !!this.chain.pendingTransactions
             .find(x => x.transactionDataHash === receivedTransactionHash);
         
-        if (areValidFields && transaction.validateTransaction() && !isDuplicateTran) {
+        if (areValidFields && transaction.validateTransaction() 
+            && !isDuplicateTran && this.haveEnoughBalance(transaction)) {
             this.chain.pendingTransactions.push(transaction);
             return true;
         }
 
         return false;
+    }
+
+    haveEnoughBalance(tran) {
+        let senderAddress = tran.from;
+        let balance = this.getBalance(senderAddress);
+        let value = tran.value;
+        return (balance - value) >= 0;
     }
 
     mapTran(tran, receivedTran) {
@@ -110,5 +118,32 @@ module.exports = class Node {
 
     connectToPeers() {
         // TODO
+    }
+
+    checkForNewTransactions() {
+        // TODO
+    }
+
+    
+
+    prepareCoinbaseTran (minerAddress, newBlock) {
+        let transactions = newBlock.transactions;
+        let fees = 0;
+        for (let i = 0; i < transactions.length; i++) {
+            fees += +transactions[i].fee;
+        }
+
+        let tran = new Transaction();
+        tran.from = null;
+        tran.to = minerAddress;
+        tran.value = (30 + fees);
+        tran.fee = 0;
+        tran.data = 'coinbase tran';
+        tran.senderPubKey = null;
+        tran.senderSignature = null;
+        tran.transferSuccessful = true;
+        tran.minedInBlockIndex = newBlock.index;
+
+        return tran;
     }
 }
