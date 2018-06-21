@@ -24,6 +24,7 @@ app.listen(http_port, () => {
     setInterval(function () {
         // TODO
         // get info from peers
+        // sync chain from peer info
     }
     , 3000);
 });

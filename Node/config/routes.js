@@ -15,6 +15,10 @@ module.exports = function (app, node) {
         })
     });
 
+    app.post('/notify-new-block', (req, res) => {
+        // TODO
+    })
+
     app.get('/blocks', (req, res) => {
         res.json({
             blocks: node.chain.blocks
@@ -72,6 +76,9 @@ module.exports = function (app, node) {
             block.minedBy = minerAddress;
             node.addBlock(block);
             node.processTransactions(block);
+
+            // TODO notify peers about the new block !!!
+
             res.json({
                 response: 'Mined block : ' + successful
             })
@@ -95,6 +102,7 @@ module.exports = function (app, node) {
         
         let isValid = node.receiveTransaction(tran, receivedTran.transactionDataHash);
         if (isValid) {
+            // TODO send transaction to all peers
             res.json({response: 'Valid transaction'})
         } else {
             res.json({response: 'Invalid transaction'})
