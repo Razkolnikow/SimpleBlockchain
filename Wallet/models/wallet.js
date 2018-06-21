@@ -58,7 +58,11 @@ module.exports = class Wallet {
 
 
     sign(transactionHash, privateKey) {
-        return secp256k1.sign(new Buffer(transactionHash, 'hex'), new Buffer(privateKey, 'hex'));
+        try {
+            return secp256k1.sign(new Buffer(transactionHash, 'hex'), new Buffer(privateKey, 'hex'));
+        } catch (e) {
+            return {error: "Invalid signature parameters"}
+        }        
     }
 
     verifySignature(data, publicKey, signature) {

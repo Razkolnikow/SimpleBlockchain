@@ -83,6 +83,23 @@
                 dataType: "json"
                 }).done(function (data) {
                     console.log(data);
+                    let obj = JSON.parse(data);
+                    if (obj.response.toString().startsWith('Invalid')) {
+                        
+                        $('.container')
+                            .append(
+                                `<div class="msg" style="background-color: red; padding 10px; border: 1px solid black; 
+                                    font-weight: 800; cursor: pointer;">
+                                    Insufficient funds
+                                </div>`
+                            );
+
+                            $('.msg').click(function (ev) {
+                                $(this).remove();
+                            })
+                    }
+                }).fail(err => {
+                    console.log(err)
                 });
         })
     });
