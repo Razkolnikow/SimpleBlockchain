@@ -14,7 +14,7 @@ module.exports = class ValidationUtil {
     }
 
     checkTransactionForInvalidFields(transaction, transactionHash) {
-        if (transaction.from === Constants.faucetAddress) {
+        if (transaction.from === Constants.faucetAddress && transactionHash === transaction.transactionDataHash) {
             return true;
         }
         if (!transaction.from || transaction.from === ''
