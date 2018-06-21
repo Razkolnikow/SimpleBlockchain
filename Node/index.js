@@ -20,4 +20,10 @@ require('./config/routes')(app, node);
 
 // TODO
 
-app.listen(http_port);
+app.listen(http_port, () => {
+    setInterval(function () {
+        // TODO
+        // get info from peers
+    }
+    , 3000);
+});

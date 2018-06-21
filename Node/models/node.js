@@ -105,6 +105,26 @@ module.exports = class Node {
     notifyPeersForNewTransactions() {
         // TODO: Notify peers when you receive new transaction!!!
         // send the transaction hash
+        let pendingTrans = this.chain.pendingTransactions;
+        let transactionsHashes = [];
+        for (let i = 0; i < pendingTrans.length; i++) {
+            transactionsHashes.push(pendingTrans[i].transactionDataHash);
+        }
+
+        return transactionsHashes;
+    }
+
+    giveTransactionsToPeer(wantedTransactionHashes) {
+        let transactionsToSend = [];
+        for (let i = 0; i < wantedTransactionHashes.length; i++) {
+            let item = this.chain.pendingTransactions
+                .find(x => x.transactionDataHash === wantedTransactionHashes[i]);
+            if (item) {
+                transactionsToSend.push(item);
+            }
+        }
+
+        return transactionsToSend;
     }
 
     notifyPeersForMinedBlock(minedBlock) {
