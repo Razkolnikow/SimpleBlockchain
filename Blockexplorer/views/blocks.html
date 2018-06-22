@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>BlockExplorer</title>
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  </head>
+  <body>
+        <div>
+                <a href="/index" style="margin-left: 5px;">Home </a>
+                <a href="/blocks" style="margin-left: 5px;">Blocks</a>
+                <a href="/pending-transactions" style="margin-left: 5px;">View PendingTransactions </a>
+                <a href="/faucet" style="margin-left: 5px;">Faucet</a>
+                <a href="/info" style="margin-left: 5px;">Info</a>
+            </div>
+      <div class="container" style="text-align: center;">
+          <h1>Blocks</h1>
+          <div class="form-group">
+              <label for="node">Node url</label>
+                <input class="form-control" type="text" id="node" placeholder="Node url" value="http://localhost:3005">
+          </div>
+          <div class="form-group">
+            <input type="button" id="get" class="btn btn-info" value="View Blocks">
+            <input type="button" id="clear" class="btn btn-danger" value="Clear">
+          </div>
+          <div id="blocks">
+
+          </div>
+      </div>    
+  </body>
+
+  <script type="application/javascript">
+    $(document).ready(function () {
+        $('#clear').click(function () {
+            $('#data').remove();
+        });
+
+        $('#get').click(function (ev) {
+            let nodeUrl = $('#node').val();
+            $.ajax({
+            type: "GET",
+            content: "application/json; charset=utf-8",
+            url: `${nodeUrl}/blocks`,
+            dataType: "json"
+            }).done(function (data) {
+                
+                $('#blocks').append(`<div id="data">${JSON.stringify(data, undefined, 2)}</div>`);                                        
+            }).fail(function (err) {
+                $('#blocks').val(err);  
+            });
+        });            
+    });
+</script>
+</html>

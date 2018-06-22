@@ -47,8 +47,6 @@ module.exports = class Node {
                 receivedTransactionHash
             );
 
-        console.log('are valid fields: ' + areValidFields);
-
         let isDuplicateTran = !!this.chain.pendingTransactions
             .find(x => x.transactionDataHash === receivedTransactionHash);
 
@@ -85,6 +83,7 @@ module.exports = class Node {
         let senderAddress = tran.from;
         let balance = this.getBalance(senderAddress);
         let value = +tran.value;
+        console.log('balance is: ' + (balance - value));
         return (balance - value) >= 0;
     }
 

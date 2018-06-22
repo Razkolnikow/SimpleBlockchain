@@ -118,8 +118,8 @@ module.exports = function (app, node) {
         let isValid = node.receiveTransaction(tran, receivedTran.transactionDataHash);
         if (isValid) {
             // send transaction to all peers
-            notifyAllPeersForNewTransaction(tran);
-            
+            notifyAllPeersForNewTransaction(receivedTran);
+            console.log('valid tran');
             res.json({response: 'Valid transaction'})
         } else {
             res.json({response: 'Invalid transaction'})
