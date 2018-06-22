@@ -126,8 +126,9 @@ module.exports = function (app, node) {
         }        
     });
 
-    app.get('/blocks', (req, res) => {
-        // TODO
+    app.get('/confirmed-transactions', (req, res) => {
+        let confirmedTransactions = node.getConfirmedTransactions();
+        res.json(confirmedTransactions);
     });
 
     app.get('/balance', (req, res) => {

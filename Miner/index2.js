@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({
 }));
 let miner = new Miner();
 function mine() {    
-    request.get(`http://localhost:3005/get-mining-job?minerAddress=${miner.minerAddress}`, function (err, response, body) {
+    request.get(`http://localhost:3009/get-mining-job?minerAddress=${miner.minerAddress}`, function (err, response, body) {
         let params = JSON.parse(body);
         let blockHash = params.blockDataHash;
         let difficulty = +params.difficulty;
@@ -33,7 +33,7 @@ function mine() {
                     timestamp: miner.timestamp,
                     awardAddress: miner.minerAddress
                 });
-            request.post({url: 'http://localhost:3005/mineBlock', 
+            request.post({url: 'http://localhost:3009/mineBlock', 
             form: {
                 blockhash: minedBlockHash.toString(), 
                 blockDataHash: blockHash,
@@ -60,7 +60,7 @@ app.get('/test-miner', (req, res) => {
     res.send('Success!');
 })
 
-app.listen(3004, () => {
+app.listen(3003, () => {
     setInterval(function () {
         mine();
     }
