@@ -19,7 +19,7 @@ module.exports = class ValidationUtil {
         }
         if (!transaction.from || transaction.from === ''
             || !transaction.to || transaction.to === ''
-            || Number.isNaN(+transaction.value) || +transaction.value <= 0
+            || Number.isNaN(+transaction.value) || +transaction.value <= +transaction.fee
             || Number.isNaN(+transaction.fee) || +transaction.fee < 10
             || !transaction.dateCreated || transaction.dateCreated === ''
             || !transaction.senderPubKey || transaction.senderPubKey === ''

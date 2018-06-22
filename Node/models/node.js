@@ -62,7 +62,7 @@ module.exports = class Node {
         let senderAddress = tran.from;
         let balance = this.getBalance(senderAddress);
         let value = +tran.value;
-        return (balance - value) > 0;
+        return (balance - value) >= 0;
     }
 
     mapTran(tran, receivedTran) {
@@ -92,9 +92,9 @@ module.exports = class Node {
                 let val = +currentTran.value;
                 let fee = +currentTran.fee;
                 if (currentTran.to === address) {
-                    balance += (val);
+                    balance += (val - fee);
                 } else if (currentTran.from === address) {
-                    balance -= (val + fee);
+                    balance -= (val);
                 }
             }
         }
@@ -144,6 +144,9 @@ module.exports = class Node {
         // TODO
     }
 
+    syncChain(newChain) {
+
+    }
     
 
     prepareCoinbaseTran (minerAddress, newBlock) {
