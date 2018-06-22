@@ -10,7 +10,7 @@ let http_port = process.env.HTTP_PORT || config.port;
 let app = express();
 app.use(cors());
 
-let node = new Node(config.testUrl + config.port);
+let node = new Node(config.testUrl + '3009');
 let tran1 = new Transaction();
 let tran2 = new Transaction();
 // node.chain.pendingTransactions.push(tran1);
@@ -21,8 +21,8 @@ require('./config/routes')(app, node);
 
 // TODO
 
-app.listen(http_port, () => {
-    let peersToConnect = ['http://localhost:3009'];
+app.listen(3009, () => {
+    let peersToConnect = [];
 
     for (let i = 0; i < peersToConnect.length; i++) {
         let peerUrl = peersToConnect[i];
@@ -33,14 +33,9 @@ app.listen(http_port, () => {
                 nodeUrl: node.selfUrl
             }
         }, function (err, response, body) {
-            if (err) {
-                console.log(err);
-            } else {
-                let nodeId = JSON.parse(body).nodeId;
+            let nodeId = JSON.parse(body).nodeId;
 
-                node.peers.set(nodeId, peerUrl);
-            }
-            
+            node.peers.set(nodeId, peerUrl);
         });
     }
 

@@ -30,6 +30,7 @@ module.exports = class Blockchain {
         "0000000000000000000000000000000000000000000000000000000000000000"
         ];
         genesisBlock.nonce = 0;
+        transaction.calculateTransacionDataHash();
         genesisBlock.transactions.push(transaction);
         genesisBlock.prevBlockHash = '';
         genesisBlock.minedBy = '';

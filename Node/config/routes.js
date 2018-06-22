@@ -1,17 +1,37 @@
 const Block = require('./../models/block'); 
 const ValidationUtil = require('./../models/validationUtil');
 const Transaction = require('./../models/transaction');
+let request = require('request');
 let validationUtil = new ValidationUtil();
 
 module.exports = function (app, node) {
+
+    function notifyAllPeersForNewTransaction (transaction) {
+        node.peers.forEach (function (value, key, mapObj) {
+            if (value !== node.selfUrl) {
+                request.post({url: (value + '/send-transaction'), 
+                form: transaction}, function (err, response, body) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(body);
+                    }
+                })
+            }
+        });
+        
+    }
+
     app.get('/info', (req, res) => {
+        node.chain.calculateCumulativeDifficulty();
         res.json({
             nodeId: node._id,
             nodeUrl: node.selfUrl,
             chainId: node.chain._id,
             currentDifficulty: node.chain.currentDifficulty,
-            peers: node.peers.length ? node.peers.length : 0,
-            blocksCount: node.chain.blocks.length
+            peers: node.peers.size ? node.peers.size : 0,
+            blocksCount: node.chain.blocks.length,
+            cumulativeDifficulty: node.chain.cumulativeDifficulty
         })
     });
 
@@ -20,9 +40,7 @@ module.exports = function (app, node) {
     })
 
     app.get('/blocks', (req, res) => {
-        res.json({
-            blocks: node.chain.blocks
-        })
+        res.json(node.chain.blocks)
     });
 
     app.get('/get-mining-job', (req, res) => {
@@ -96,13 +114,12 @@ module.exports = function (app, node) {
         let receivedTran = req.body;
         let tran = new Transaction();
         node.mapTran(tran, receivedTran);
-
-        // console.log(receivedTran);
-        // console.log(tran);
         
         let isValid = node.receiveTransaction(tran, receivedTran.transactionDataHash);
         if (isValid) {
-            // TODO send transaction to all peers
+            // send transaction to all peers
+            notifyAllPeersForNewTransaction(tran);
+            
             res.json({response: 'Valid transaction'})
         } else {
             res.json({response: 'Invalid transaction'})
@@ -118,5 +135,20 @@ module.exports = function (app, node) {
         let balance = node.getBalance(address);
 
         res.json({balance: balance});
+    });
+
+    app.get('/pending-transactions', (req, res) => {
+        let pendingTransactions = node.chain.pendingTransactions;
+
+        res.json(pendingTransactions);
+    })
+
+    app.post('/peer-connect', (req, res) => {
+        let nodeId = req.body.nodeId;
+        let nodeUrl = req.body.nodeUrl;
+
+        node.peers.set(nodeId, nodeUrl);
+
+        res.json({ response: "Connected", nodeId: node._id });
     });
 }
